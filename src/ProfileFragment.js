@@ -25,7 +25,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function ProfileFragement({open, handleClose}) {
     const { user } = useAuth();
 
-  
     return (
         <React.Fragment>
             <BootstrapDialog

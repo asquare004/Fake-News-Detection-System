@@ -3,6 +3,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { auth } from './firebase';
 import ProfileFragement from './ProfileFragment';
+import HistoryFragment from './HistoryFragment.js';
 import PromptMainUI from './components/PromptMainUI.js';
 
 //--------MUI imports----------------//
@@ -89,6 +90,7 @@ export default function PersistentDrawerLeft() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [showProfileFragment, setShowProfileFragment] = useState(false);
+  const [showHistoryFragment, setShowHistoryFragment] = useState(false);
 
   const drawerItemArray = ['Profile', 'History', 'Sign Out'];
   const drawerItemIconArray = [<PersonIcon />, <HistoryIcon />, <LogoutIcon />];
@@ -98,6 +100,10 @@ export default function PersistentDrawerLeft() {
 
   const handleCloseProfile = () => {
     setShowProfileFragment(false);
+  };
+  
+  const handleCloseHistory = () => {
+    setShowHistoryFragment(false);
   };
 
   const handleDrawerOpen = () => {
@@ -114,7 +120,7 @@ export default function PersistentDrawerLeft() {
   };
 
   const handleHistory = () => {
-
+    setShowHistoryFragment(true);
   };
 
   const handleSignOut = async () => {
@@ -193,6 +199,7 @@ export default function PersistentDrawerLeft() {
       </Main>
 
       {showProfileFragment && < ProfileFragement open={showProfileFragment} handleClose={handleCloseProfile} />}
+      {showHistoryFragment && < HistoryFragment   open={showHistoryFragment} handleClose={handleCloseHistory} />}
 
     </Box>
   );

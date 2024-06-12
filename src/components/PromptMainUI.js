@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Container, TextField, Button, Box, Typography } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import { useAuth } from '../AuthProvider';
+
+import IconButton from '@mui/material/IconButton';
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
 
 //----------ICONS--------------------//
 import SendIcon from '@mui/icons-material/Send';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import {database} from '../firebase';
+import { ref, push } from "firebase/database";
 
+//--------------CONSTANTS--------------//
+const timeAlertDisplay = 3000;
 
 //---FETCHING DATA LOGIC------------//
 const fetchData = async (data) => {
     try {
-        const response = await fetch('http://localhost:5000/predict', {
+        const response = await fetch('https://fake-news-detection-system-0vch.onrender.com/predict', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ data: { data } }) // Data to be sent in the request body
+            body: JSON.stringify({ data }) // Data to be sent in the request body
         });
 
         if (!response.ok) {
@@ -32,25 +39,57 @@ const fetchData = async (data) => {
     }
 };
 
-
-
 //----------------MAIN FUNCTION------------//
 export default function PromptMainUI() {
     const [prompt, setPrompt] = useState('');
     const [displayedPrompt, setDisplayedPrompt] = useState('');
     const [displaySaveButton, setDisplaySaveButton] = useState(false);
+    const [displayCircularProgress, setDisplayCircularProgress] = useState(false);
+    const [displaySuccessAlert, setDisplaySuccessAlert] = useState(false);
+    const [displayFailureAlert, setDisplayFailureAlert] = useState(false);
+
     const { user } = useAuth();
+    const dataRef = ref(database,`history/${user.uid}/items`);
+
+    useEffect(() => {
+        if (displaySuccessAlert) {
+            const timer = setTimeout(() => {
+                setDisplaySuccessAlert(false);
+            }, timeAlertDisplay); // 5 seconds delay
+
+            return () => clearTimeout(timer);
+        }
+    }, [displaySuccessAlert]);
+
+    useEffect(() => {
+        if (displayFailureAlert) {
+            const timer = setTimeout(() => {
+                setDisplayFailureAlert(false);
+            }, timeAlertDisplay); // 5 seconds delay
+
+            return () => clearTimeout(timer);
+        }
+    }, [displayFailureAlert]);
 
     const handleSubmit = async () => {
-        let response = { data: { data: "" }, response: "" };
+        setDisplayCircularProgress(true);
+        let response = { data: "", response: "" };
         let finalReponse = "";
+        let hasError = false;
         if (prompt != "") {
             response = await fetchData(prompt);
-            finalReponse = user.displayName + ": " + response.data.data + "\n" + "AI: " + response.response;
+            try {
+                finalReponse = user.displayName + ": " + response.data + "\n" + "AI: " + response.response;
+            }
+            catch (e) {
+                finalReponse = "Sorry !! Error fetching details!!"
+                hasError = true;
+            }
         }
 
+        setDisplayCircularProgress(false);
         setDisplayedPrompt(finalReponse);
-        if (prompt != "")
+        if (!hasError && prompt!="")
             setDisplaySaveButton(true);
         else
             setDisplaySaveButton(false);
@@ -58,25 +97,38 @@ export default function PromptMainUI() {
         setPrompt('');
     };
 
-    const handleSave = () => {
+    const handleSave =async  () => {
+        setDisplayCircularProgress(true);
         console.log("saved");
         console.log(displayedPrompt);
         setDisplaySaveButton(false);
+
+        return push(dataRef,displayedPrompt).then(() => {
+            console.log("Save successful!");
+            setDisplaySuccessAlert(true);
+        }).catch(error => {
+            console.log(error);
+            setDisplaySaveButton(true);
+            setDisplayFailureAlert(true);
+        }).finally(()=>{
+            setDisplayCircularProgress(false);
+        });
     };
 
 
     return (
         <>
-            <Container maxWidth="sm" style={{ marginTop: '50px', textAlign: 'center' }}>
+            <Container maxWidth="sm" style={{ marginTop: '80px' }}>
+                {displaySuccessAlert && <Alert severity="success" style={{marginBottom:"10px"}}>Save successful.</Alert>}
+                {displayFailureAlert && <Alert severity="error" style={{marginBottom:"10px"}}>Saving Data Failed!</Alert>}
 
                 <Box
                     sx={{
                         border: '1px solid #ccc',
                         padding: '16px',
                         borderRadius: '8px',
-                        minHeight: '100px',
-                        display: 'flex',
-                        alignItems: 'center',
+                        minHeight: '250px',
+                        display: 'flex',    
                         overflowY: 'auto',
                         justifyContent: 'center',
                         marginBottom: '20px',
@@ -85,7 +137,8 @@ export default function PromptMainUI() {
                     }}
                     style={{ whiteSpace: 'pre-line' }}
                 >
-                    <Typography variant="h6">{displayedPrompt || 'Give news articles to Hypervion!'}</Typography>
+                    {displayCircularProgress && <CircularProgress style={{ marginTop: "80px" }} />}
+                    {!displayCircularProgress && <Typography variant="h6">{displayedPrompt || `Welcome back ${user.displayName}`}</Typography>}
 
                     <IconButton
                         aria-label="Send"
@@ -105,7 +158,7 @@ export default function PromptMainUI() {
 
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <TextField
-                        label="Enter your prompt"
+                        label="Enter News articles/headlines"
                         variant="outlined"
                         fullWidth
                         value={prompt}
