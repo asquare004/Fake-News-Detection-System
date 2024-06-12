@@ -1,16 +1,21 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from model import is_fake_news;
+
 
 app = Flask(__name__)
 
-CORS(app) 
+CORS(app)
+
 @app.route('/predict', methods=['POST'])
 def get_data():
-    # Create a JSON object containing data
+
+    print(request.json)
     data = request.json.get('data')
-    # Return the JSON object with a response saying "Thank you"
+    prediction  = is_fake_news(data)
+    
     return jsonify({
-        "response": "Thank you",
+        "response": prediction,
         "data": data
     })
 
