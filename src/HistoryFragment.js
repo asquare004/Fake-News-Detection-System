@@ -83,7 +83,7 @@ export default function HistoryFragment({ open, handleClose }) {
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                             {header}
                         </Typography>
-                        <Button autoFocus color="inherit" onClick={deleteHistory}>
+                        <Button  color="inherit" onClick={deleteHistory} sx={{ marginLeft: 'auto' }}>
                             Delete
                         </Button>
                     </Toolbar>

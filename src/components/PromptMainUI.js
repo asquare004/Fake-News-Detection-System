@@ -85,7 +85,7 @@ export default function PromptMainUI() {
             response = await fetchData(prompt);
             try {
                 finalReponse [0] = user.displayName + ":\n" + response.data ;
-                finalReponse[1] = "AI: " + response.response;
+                finalReponse[1] = " AI: " + response.response;
             }
             catch (e) {
                 finalReponse[0] = "Sorry !! Error fetching details!!"
@@ -131,7 +131,7 @@ export default function PromptMainUI() {
 
                 <Box
                     sx={{
-                        border: '1px solid #ccc',
+                        // border: '1px solid #ccc',
                         padding: '16px',
                         borderRadius: '8px',
                         minHeight: '250px',
