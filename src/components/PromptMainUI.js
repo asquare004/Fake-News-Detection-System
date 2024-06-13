@@ -52,7 +52,7 @@ export default function PromptMainUI() {
     const [displayCircularProgress, setDisplayCircularProgress] = useState(false);
     const [displaySuccessAlert, setDisplaySuccessAlert] = useState(false);
     const [displayFailureAlert, setDisplayFailureAlert] = useState(false);
-
+    
     const { user } = useAuth();
     const dataRef = ref(database,`history/${user.uid}/items`);
 
@@ -134,7 +134,7 @@ export default function PromptMainUI() {
                         // border: '1px solid #ccc',
                         padding: '16px',
                         borderRadius: '8px',
-                        minHeight: '250px',
+                        minHeight: '300px',
                         minWidth: '250px',
                         display: 'flex',    
                         overflowY: 'auto',
@@ -145,8 +145,9 @@ export default function PromptMainUI() {
                     }}
                     style={{ whiteSpace: 'pre-line' }}
                 >
-                    {displayCircularProgress && <CircularProgress style={{ marginTop: "80px" }} />}
-                    {!displayCircularProgress && displayedPrompt[0]=="" && <img src={Logo} alt="Main Logo" style={{ width: '45%', height:'75%' ,animation:'slideInTop 1s'}} />}
+                    {displayCircularProgress && <img src={Logo} alt="Main Logo" style={{ width: '45%', height:'75%' ,animation:  'rotate360 0.18s linear infinite'}} />}
+                    {/* {displayCircularProgress && <CircularProgress style={{ marginTop: "80px" }} />} */}
+                    {!displayCircularProgress && displayedPrompt[0]==""  && <img src={Logo} alt="Main Logo" style={{ width: '45%', height:'75%' ,animation:  'slideInTop 1s'}} />}
                         <div className="my-4">
                         {!displayCircularProgress && <Typography variant="h6" style={{ textAlign: 'right' }}>{displayedPrompt[0]}</Typography>}
                         {!displayCircularProgress && <Typography variant="h6" style={{ textAlign: 'left' , marginTop : '30px' }}>{displayedPrompt[1]}</Typography>}
