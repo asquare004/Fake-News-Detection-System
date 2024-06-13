@@ -158,6 +158,7 @@ export default function PersistentDrawerLeft() {
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
+          backgroundColor: 'inherit'
           },
         }}
         variant="persistent"

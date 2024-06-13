@@ -6,11 +6,16 @@ import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 
-//----------ICONS--------------------//
+//----------ICONS and Animations--------------------//
 import SendIcon from '@mui/icons-material/Send';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import Logo from '../images/Hypervion.png';
+import '../animations.css'
+
+//-------------FIREBASE Imports--------------//
 import {database} from '../firebase';
 import { ref, push } from "firebase/database";
+
 
 //--------------CONSTANTS--------------//
 const timeAlertDisplay = 3000;
@@ -42,7 +47,7 @@ const fetchData = async (data) => {
 //----------------MAIN FUNCTION------------//
 export default function PromptMainUI() {
     const [prompt, setPrompt] = useState('');
-    const [displayedPrompt, setDisplayedPrompt] = useState('');
+    const [displayedPrompt, setDisplayedPrompt] = useState(["",""]);
     const [displaySaveButton, setDisplaySaveButton] = useState(false);
     const [displayCircularProgress, setDisplayCircularProgress] = useState(false);
     const [displaySuccessAlert, setDisplaySuccessAlert] = useState(false);
@@ -74,15 +79,16 @@ export default function PromptMainUI() {
     const handleSubmit = async () => {
         setDisplayCircularProgress(true);
         let response = { data: "", response: "" };
-        let finalReponse = "";
+        let finalReponse = ["",""];
         let hasError = false;
         if (prompt != "") {
             response = await fetchData(prompt);
             try {
-                finalReponse = user.displayName + ": " + response.data + "\n" + "AI: " + response.response;
+                finalReponse [0] = user.displayName + ":\n" + response.data ;
+                finalReponse[1] = "AI: " + response.response;
             }
             catch (e) {
-                finalReponse = "Sorry !! Error fetching details!!"
+                finalReponse[0] = "Sorry !! Error fetching details!!"
                 hasError = true;
             }
         }
@@ -119,6 +125,7 @@ export default function PromptMainUI() {
     return (
         <>
             <Container maxWidth="sm" style={{ marginTop: '80px' }}>
+              
                 {displaySuccessAlert && <Alert severity="success" style={{marginBottom:"10px"}}>Save successful.</Alert>}
                 {displayFailureAlert && <Alert severity="error" style={{marginBottom:"10px"}}>Saving Data Failed!</Alert>}
 
@@ -128,17 +135,22 @@ export default function PromptMainUI() {
                         padding: '16px',
                         borderRadius: '8px',
                         minHeight: '250px',
+                        minWidth: '250px',
                         display: 'flex',    
                         overflowY: 'auto',
                         justifyContent: 'center',
                         marginBottom: '20px',
-                        backgroundColor: '#f5f5f5',
+                        // backgroundColor: '#f5f5f5',
                         position: 'relative'
                     }}
                     style={{ whiteSpace: 'pre-line' }}
                 >
                     {displayCircularProgress && <CircularProgress style={{ marginTop: "80px" }} />}
-                    {!displayCircularProgress && <Typography variant="h6">{displayedPrompt || `Welcome back ${user.displayName}`}</Typography>}
+                    {!displayCircularProgress && displayedPrompt[0]=="" && <img src={Logo} alt="Main Logo" style={{ width: '45%', height:'75%' ,animation:'slideInTop 1s'}} />}
+                        <div className="my-4">
+                        {!displayCircularProgress && <Typography variant="h6" style={{ textAlign: 'right' }}>{displayedPrompt[0]}</Typography>}
+                        {!displayCircularProgress && <Typography variant="h6" style={{ textAlign: 'left' , marginTop : '30px' }}>{displayedPrompt[1]}</Typography>}
+                        </div>
 
                     <IconButton
                         aria-label="Send"
@@ -148,7 +160,9 @@ export default function PromptMainUI() {
                             position: 'absolute',
                             bottom: '8px',
                             right: '8px',
+                         
                         }}
+                        
                     >
                         <BookmarkIcon />
                     </IconButton>
@@ -156,14 +170,14 @@ export default function PromptMainUI() {
                 </Box>
 
 
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <footer style={{ display: 'flex', alignItems: 'center', }}>
                     <TextField
                         label="Enter News articles/headlines"
                         variant="outlined"
                         fullWidth
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
-                        style={{ marginRight: '8px' }}
+                        style={{ marginRight: '8px', animation:'slideInRight 1s' }}
                         onKeyDown={(e) => {
                             if (e.key == "Enter") {
                                 handleSubmit();
@@ -174,10 +188,11 @@ export default function PromptMainUI() {
                     <IconButton
                         aria-label="Send"
                         onClick={handleSubmit}
+                        style = {{animation:'slideInLeft 1s'}}
                     >
-                        <SendIcon />
+                        <SendIcon style = {{color:'#3f51b5'}}/>
                     </IconButton>
-                </div>
+                </footer>
 
 
             </Container>

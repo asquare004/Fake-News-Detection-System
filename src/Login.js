@@ -13,6 +13,8 @@ import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 
 //------------ LOGO imports-------------------//
@@ -26,6 +28,11 @@ import ImageButton from './components/ImageButton';
 const Login = () => {
     const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMidSizedScreens = useMediaQuery(theme.breakpoints.down('md'));
+    const isLargeSizedScreens = useMediaQuery(theme.breakpoints.down('lg'));
+    
 
     const signInWithGoogle = async () => {
         try {
@@ -59,10 +66,9 @@ const Login = () => {
 
     return (
         <>
-            <BackgroundSlideshow/>
+            <BackgroundSlideshow />
             <div>
-                
-                <Card sx={{ alignSelf: 'center', marginX: 50, marginY: 25, backgroundColor: 'rgba(255, 255, 255, 0.6)', backdropFilter: 'blur(5px)', borderRadius: 5 }} elevation={3} >
+                <Card  sx={{ alignSelf: 'center' , marginX: isMobile? 5: isMidSizedScreens? 25: isLargeSizedScreens?40: 60,  marginY: isMobile? 15:isMidSizedScreens? 20: 25, backgroundColor: 'rgba(255, 255, 255, 0.6)', backdropFilter: 'blur(5px)', borderRadius: 5 }} elevation={3} >
                     <CardContent>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
@@ -104,6 +110,7 @@ const Login = () => {
                             </div>
                         </div>
                     </CardContent>
+                 
                 </Card>
             </div>
         </>

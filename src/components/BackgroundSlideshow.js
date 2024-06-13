@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import bg1 from "../images/bg-1.jpg";
+// import bg1 from "../images/bg-1.jpg";
 import bg2 from "../images/bg-2.png";
 import bg3 from "../images/bg-3.jpg";
 import bg4 from "../images/bg-4.jpg";
-// import bg6 from "./assets/bg6.jpg";
-
 
 function BackgroundSlideshow(){
 
     const [currentImageIndex, setCurrentIndex] = useState(0);
-    const backgroundImageList = [bg1,bg2,bg3,bg4];
+    const backgroundImageList = [bg2,bg3,bg4];
     const time = 5000;
     const transitionDuration = 500; 
 

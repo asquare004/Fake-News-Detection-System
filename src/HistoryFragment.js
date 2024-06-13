@@ -59,12 +59,17 @@ export default function HistoryFragment({ open, handleClose }) {
 
     return (
         <React.Fragment>
-            <Dialog
-                fullScreen
-                open={open}
-                onClose={handleClose}
-                TransitionComponent={Transition}
-            >
+                    <Dialog
+                        fullScreen
+                        open={open}
+                        onClose={handleClose}
+                        TransitionComponent={Transition}
+                        sx = {{
+                            '& .MuiDrawer-paper': {
+                                backgroundColor: 'inherit',
+                            }
+                        }}
+                    >
                 <AppBar sx={{ position: 'relative' }}>
                     <Toolbar>
                         <IconButton
