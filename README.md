@@ -1,2 +1,10 @@
-# FAKE NEWS DETECTION SYSTEM
-Design Doc Link: https://docs.google.com/document/d/1KaYDmMauEX7DBs25sFvy9qfzNaJ8WrNPS0v70BxRseM/edit
+# Hypervion - Fake News Detection System
+
+## Frontend Design
+React.js is used to implement frontend. We have used Material UI for majority of our UI task, since it provides majority of components pre made. We obviously have made few changes in it. There are 2 main pages in our web application. 
+
+### Login Page:
+We used OAuth provided by Firebase Authentication for secure login. Currently it only supports OAuth from Google and Facebook. In future we might integrate OAuth of other 3rd party providers or create our own login. So users with Google or Facebook account can login easily. We used Firebase because it is a really easy to implement, secure, reliable and scalable service. It helps in really fast development as well.
+
+### Home Page:
+The Home page has navigation drawer along with a space to enter prompt and see results. User can view their profile. Users can also save responses of news and view them in History tab. History tab can be accessed from Navigation drawer. We have stored all history in firebase real time database.  
