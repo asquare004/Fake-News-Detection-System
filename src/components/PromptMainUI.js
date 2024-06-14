@@ -23,7 +23,7 @@ const timeAlertDisplay = 3000;
 //---FETCHING DATA LOGIC------------//
 const fetchData = async (data) => {
     try {
-        const response = await fetch('https://fake-news-detection-system-0vch.onrender.com/predict', {
+        const response = await fetch('https://fake-news-detection-system-8gjm.onrender.com/predict', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
