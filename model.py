@@ -13,6 +13,7 @@ def predict(test_prediction_classes):
 
 
 def is_fake_news(news):
+    print(news)
     model = load_model("cnn_lstm.h5")
     tokenizer = pickle.load(open("tokenizer.sav", "rb"))
     test_sequences = tokenizer.texts_to_sequences(news)
