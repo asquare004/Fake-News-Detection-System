@@ -1,8 +1,5 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns 
-import re
 import nltk
 from nltk import word_tokenize
 from nltk.corpus import stopwords
@@ -36,20 +33,30 @@ val_sequences = tokenizer.texts_to_sequences(val_data['final'])
 padded_train = pad_sequences(train_sequences,maxlen = 42, padding = 'post', truncating = 'post')
 padded_val = pad_sequences(val_sequences,maxlen = 42, padding = 'post', truncating = 'post')
 
+
 embedding_vector_features=40
-model_1=Sequential()
-model_1.add(Embedding(20000,embedding_vector_features,input_length=20))
-model_1.add(Dropout(0.3))
-model_1.add(LSTM(100))
-model_1.add(Dropout(0.3))
-model_1.add(Dense(1,activation='sigmoid'))
-model_1.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
+model_3=Sequential()
+model_3.add(Embedding(20000,embedding_vector_features,input_length=20))
+
+model_3.add(Dropout(0.3))
+
+model_3.add(Conv1D(32, 5, activation='relu'))
+model_3.add(MaxPool1D())
+
+model_3.add(Conv1D(32, 5, activation='relu'))
+model_3.add(MaxPool1D())
+
+model_3.add(Bidirectional(LSTM(100)))
+model_3.add(Dropout(0.3))
+
+model_3.add(Dense(1,activation='sigmoid'))
+model_3.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
 
 y_train = np.asarray(train_data['label'])
 y_val = np.asarray(val_data['label'])
 
-model_1.fit(padded_train, y_train, batch_size=64, validation_data=(padded_val, y_val), epochs=30)
+model_3.fit(padded_train, y_train, batch_size = 64, validation_data=(padded_val, y_val), epochs = 30)
 
-model_1.save("lstm.h5")
+model_3.save("cnn_lstm.h5")
 pickle.dump(tokenizer, open("tokenizer.sav", "wb"))
 
