@@ -18,10 +18,10 @@ Response body:\
 }
 
 ### Machine Learning Model Design Workflow
-1. Collecting  necessary data.
+1. Collecting necessary data.
 2. Using the data to train various ML models.
 3. Comparing the results of various models and decide which model to choose according to various metrics.
-4. Deploying the mode.
+4. Deploying the model.
 
 ### Machine Learning Model Design
 
