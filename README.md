@@ -23,6 +23,6 @@ Response body:\
 3. Comparing the results of various models and decide which model to choose according to various metrics.
 4. Deploying the mode.
 
-#### Machine Learning Model Design
+### Machine Learning Model Design
 
 ![Screenshot 2024-06-15 143104](https://github.com/asquare004/Fake-News-Detection-System/assets/126737709/c7056600-b2a7-403d-9b33-358ba386cccf)
