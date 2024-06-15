@@ -20,7 +20,8 @@ Backend: Deployed on Render \
 Frontend: Deployed on Cloudflare Pages
 
 ### High Level Design
-![alt text](https://drive.google.com/file/d/1b3ZyLPfzqsv1gpy84Cs4t3wr1YaoX1t4/view?usp=sharing)
+![Screenshot 2024-06-15 142056](https://github.com/asquare004/Fake-News-Detection-System/assets/126737709/24481fdb-29c2-4458-9ed1-c2beee1ba6fa)
+
 
 Note:\
 The backend code and design  lies in the backend branch. All backend info is in backend branch.\
