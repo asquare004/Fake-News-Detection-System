@@ -26,3 +26,7 @@ Response body:\
 ### Machine Learning Model Design
 
 ![Screenshot 2024-06-15 143104](https://github.com/asquare004/Fake-News-Detection-System/assets/126737709/c7056600-b2a7-403d-9b33-358ba386cccf)
+
+### About Dataset 
+
+Dataset Link : https://www.kaggle.com/datasets/saurabhshahane/fake-news-classification
