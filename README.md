@@ -4,7 +4,7 @@
 
 Live Link: https://fake-news-detection-system.pages.dev/
 
-Video Link : https://youtu.be/LJx3s2JvZn4
+Video Link : https://youtu.be/Ww8YyZLzHvo
 
 Design Doc Link: https://docs.google.com/document/d/1KaYDmMauEX7DBs25sFvy9qfzNaJ8WrNPS0v70BxRseM/edit
 
